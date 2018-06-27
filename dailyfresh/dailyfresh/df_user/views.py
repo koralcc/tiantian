@@ -1,6 +1,11 @@
+# encoding: utf-8
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .models import User
+import hashlib
+import logging
+logger = logging.getLogger(__name__)
+
 # Create your views here.
 def index(request):
 
@@ -8,7 +13,10 @@ def index(request):
 
 def register(request):
 
-    return render(request,'register.html')
+    return render(request,'user/register.html')
+
+def login(request):
+    return render(request,'user/login.html')
 
 def register_handle(request):
 
@@ -25,8 +33,31 @@ def register_handle(request):
     # 创建对象
     user = User()
     user.name = user_name
-    user.password = pwd
+    user.password = str_to_sha1UTF8(cpwd).hexdigest()
     user.email = email
     user.save()
     # 注册成功跳转到login页面
-    return render(request,'/user/login/')
+    return redirect('/user/login')
+
+def login_handle(request):
+    post = request.POST
+    name = post.get('username')
+    password = post.get('pwd')
+
+    # sha1为单向加密算法，没有解密方法，只能把数据库存储的sha加密密码与输入的密码进行加密后对比
+
+    sha1pwd = str_to_sha1UTF8(password)
+    pwd_d = User.objects.get(name = name).password
+    logger.debug("hello, world")
+    if pwd_d == sha1pwd:
+        return redirect('/user/index')
+    else :
+        # return None
+        pass
+
+# 字符串转sha1
+def str_to_sha1UTF8(strp):
+    hash = hashlib.sha1()
+    hash.update(str(strp).encode('utf-8'))
+    return hash.hexdigest()
+
