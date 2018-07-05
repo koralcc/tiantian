@@ -1,14 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-	<title>天天生鲜-注册</title>
-	<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
-	<link rel="stylesheet" type="text/css" href="/static/css/main.css">
-	<script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
-	<script type="text/javascript" src="/static/js/register.js"></script>
-</head>
-<body>
+
+{%extends 'user/base_foot.html' %}<!-- 与当前页面在同一个文件夹下，用相对路径，当前路径为template下-->
+{% block  head%}
+    <script type="text/javascript" src="/static/js/register.js"></script><!--与当前页面不在同一个目录下，用绝对路径，根目录为 dailyfresh-->
+{% endblock %}
+
+{% block body %}
 	<div class="register_con">
 		<div class="l_con fl">
 			<a class="reg_logo"><img src="/static/images/logo02.png"></a>
@@ -19,10 +15,11 @@
 		<div class="r_con fr">
 			<div class="reg_title clearfix">
 				<h1>用户注册</h1>
-				<a href="#">登录</a>
+				<!--<a href="/user/login">登录</a>-->
+                <a href={%url "user:login" %}>登录</a><!--两种写法都可以-->
 			</div>
 			<div class="reg_form clearfix">
-				<form action="/user/register_handle" method="post">
+				<form action="/user/register_handle" method="post"><!-'/'表示当前域名->
 					{% csrf_token %}
 				<ul>
 					<li>
@@ -56,24 +53,6 @@
 				</ul>				
 				</form>
 			</div>
-
 		</div>
-
 	</div>
-
-	<div class="footer no-mp">
-		<div class="foot_link">
-			<a href="#">关于我们</a>
-			<span>|</span>
-			<a href="#">联系我们</a>
-			<span>|</span>
-			<a href="#">招聘人才</a>
-			<span>|</span>
-			<a href="#">友情链接</a>		
-		</div>
-		<p>CopyRight © 2016 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
-		<p>电话：010-****888    京ICP备*******8号</p>
-	</div>
-	
-</body>
-</html>
+	{% endblock body%}

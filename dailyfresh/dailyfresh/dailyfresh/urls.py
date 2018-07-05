@@ -18,7 +18,7 @@ from django.urls import path,re_path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^',include('df_user.urls')),
-    re_path(r'^user/',include('df_user.urls')),
+    re_path(r'^user/',include('df_user.urls',namespace='user')),
     re_path(r'^test/',include('test_django.urls',namespace = 'test_django')),
 
 ]

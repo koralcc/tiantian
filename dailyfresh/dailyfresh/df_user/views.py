@@ -33,7 +33,7 @@ def register_handle(request):
     # 创建对象
     user = User()
     user.name = user_name
-    user.password = str_to_sha1UTF8(cpwd).hexdigest()
+    user.password = str_to_sha1UTF8(cpwd)
     user.email = email
     user.save()
     # 注册成功跳转到login页面
@@ -60,4 +60,6 @@ def str_to_sha1UTF8(strp):
     hash = hashlib.sha1()
     hash.update(str(strp).encode('utf-8'))
     return hash.hexdigest()
+
+
 
